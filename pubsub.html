@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>发布订阅者模式</title>
+</head>
+<body>
+<!-- 发布者 dom
+订阅一旦发生，将回调函数执行
+函数就是订阅时交的定金 -->
+
+	<a href="javascript:;" id="btn">点我</a>
+	<script>
+		// js是单线程语言 执行主线程的事件监听时 将事件注册到线程里
+		// 点击 事件队列
+		// 发布者一定有一个数组[]来放置订阅者
+		// publisher [callback,callback2]
+
+		// document.getElementById('btn').addEventListener('click',function(){
+		// 	alert('你点击了我')
+		// })
+		var saleOffices = [] //售楼处
+		saleOffices.clientList = [] //将买家都放置进来
+		// 添加订阅者
+		saleOffices.listen = function (fn) {
+			this.clientList.push(fn)
+		}
+		saleOffices.trigger = function () {
+			for( var i=0; i<this.clientList.length; i++) {
+				// this.clientList[i].call(this,[arguments]);
+				this.clientList[i].apply(this, arguments)
+			}
+		}
+		// 小明
+		saleOffices.listen(function(price, squareMeter) {
+			if(squareMeter < 100) return;
+			console.log('价格=' + price);
+			console.log('squareMeter=' + squareMeter)
+		})
+		// 小王
+		saleOffices.listen(function(price, squareMeter) {
+			console.log('价格=' + price);
+			console.log('squareMeter=' + squareMeter)
+		})
+		// console.log(saleOffices.clientList)
+		saleOffices.trigger(2000000,80)
+		saleOffices.trigger(3000000,100)
+	</script>
+</body>
+</html>

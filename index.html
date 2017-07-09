@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div id="app">
+	<h2>{{title}}</h2>
+	<input type="text" v-model="name" />
+	<h1>{{name}}</h1>
+	<button v-on:click="clickMe">click me</button>
+</div>
+<script src="/src/observer.js?v=16"></script>
+<script src="/src/watcher.js?v=16"></script>
+<script src="/src/Compile.js?v=16"></script>
+<script src="/src/index.js?v=16"></script>
+<script>
+	let vm = new SelfVue({
+		// 组件在这个div里去逐渐层的解析 编译模板
+		el: '#app',
+		data: {
+			title: '标题',
+			name: 'canfoo',
+
+		},
+		methods: {
+			clickMe: function() {
+				alert('clicked')
+				this.title = 'hello world'
+			}
+		},
+		mounted () {
+			window.setTimeout(() =>{
+				this.title = '你好'
+				// 希望this.title 同等于 this.data.title 
+				// vue 数据劫持
+				// 数据改变不能单纯的行为
+				// 页面上所有与此数据有关的地方都重新编译， 数据绑定
+
+			}, 1000)
+		}
+	})
+</script>
+</body>
+</html>
